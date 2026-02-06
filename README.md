@@ -82,7 +82,12 @@ A modern, scalable full-stack video streaming platform featuring Netflix-like us
 ### Streaming Interface
 
 <div align="center">
+  <img src=".github/wagtail-screenshot-with-browser.png" alt="Video Streaming Platform" width="800"/>
   <p><i>Netflix-style video streaming platform with personalized recommendations</i></p>
+  
+  <img src=".github/install-animation.gif" alt="Platform Demo" width="600"/>
+  <p><i>Smooth user experience with adaptive streaming</i></p>
+  
   <p><b>Note:</b> This is a production-ready streaming platform with CDN integration</p>
 </div>
 
