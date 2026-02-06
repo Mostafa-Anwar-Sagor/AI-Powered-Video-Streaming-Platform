@@ -88,6 +88,12 @@ A modern, scalable full-stack video streaming platform featuring Netflix-like us
   <img src=".github/install-animation.gif" alt="Platform Demo" width="600"/>
   <p><i>Smooth user experience with adaptive streaming</i></p>
   
+  <img src="docs/_static/images/adminviews_menu.png" alt="Admin Architecture" width="700"/>
+  <p><i>Content management system architecture</i></p>
+  
+  <img src="docs/_static/images/screen40_table_block.png" alt="System Design" width="700"/>
+  <p><i>Modular streaming system design</i></p>
+  
   <p><b>Note:</b> This is a production-ready streaming platform with CDN integration</p>
 </div>
 
