@@ -1,4 +1,4 @@
-# 🎬 AI-Powered Full-Stack Video Streaming Platform
+# 🎬 AI-Powered Video Streaming Platform
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Django](https://img.shields.io/badge/Django-5.0+-green.svg)
