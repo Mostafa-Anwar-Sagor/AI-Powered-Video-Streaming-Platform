@@ -13,7 +13,7 @@
 
 *Developed by Mostafa Anwar*
 
-[Features](#features) • [Demo](#demo) • [Installation](#installation) • [Usage](#usage) • [Technologies](#technologies-used) • [Author](#author)
+[Features](#features) • [AI Models](#ai-models) • [Installation](#installation) • [Usage](#usage) • [Technologies](#technologies-used) • [Author](#author)
 
 </div>
 
@@ -23,7 +23,6 @@
 
 - [Overview](#overview)
 - [Features](#features)
-- [Demo](#demo)
 - [AI Models](#ai-models)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -77,41 +76,7 @@ A modern, scalable full-stack video streaming platform featuring Netflix-like us
 
 ---
 
-## 🎬 Demo
-
-### Streaming Interface
-
-<div align="center">
-  <p><b>🎥 Professional Video Streaming Platform</b></p>
-  <p><i>Netflix-style video streaming platform with personalized AI recommendations</i></p>
-  
-  <h4>Key Capabilities:</h4>
-  <p>📺 <b>Adaptive Streaming:</b> Automatic bitrate adjustment (360p to 4K)<br/>
-  🤖 <b>AI Recommendations:</b> Deep learning content discovery engine<br/>
-  🎬 <b>Live Broadcasting:</b> Real-time video streaming with WebRTC<br/>
-  🌐 <b>CDN Integration:</b> Global content delivery for low latency<br/>
-  📱 <b>Multi-Device:</b> Responsive design for web, mobile, and smart TVs</p>
-  
-  <h4>System Architecture:</h4>
-  <p>🏗️ <b>Microservices:</b> Django REST + React frontend<br/>
-  ⚡ <b>Processing:</b> FFmpeg for transcoding & Redis caching<br/>
-  🗄️ <b>Storage:</b> PostgreSQL + AWS S3 for media files<br/>
-  🔍 <b>Search:</b> Elasticsearch for content discovery</p>
-  
-  <p><b>Note:</b> This is a production-ready streaming platform with CDN integration and AI-powered features</p>
-</div>
-
-### Key Features in Action
-
-- 📺 **Adaptive bitrate streaming** for seamless playback
-- 🤖 **AI-powered recommendations** based on viewing history
-- 🎨 **Modern, responsive UI** for all devices
-- 🔍 **Smart search** with fuzzy matching
-- 🌐 **Multi-language support** with automatic subtitles
-
----
-
-## 🎓 AI Models
+##  AI Models
 
 ### Recommendation Engine
 - **Collaborative Filtering**: User-based and item-based recommendations
