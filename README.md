@@ -1,4 +1,4 @@
-# 🎬 AI-Powered Video Streaming Platform
+# 🎬 AI-Powered Full-Stack Video Streaming Platform
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Django](https://img.shields.io/badge/Django-5.0+-green.svg)
@@ -9,7 +9,7 @@
 
 *Developed by Mostafa Anwar*
 
-A modern, scalable video streaming platform with AI-powered content recommendations, real-time transcoding, and advanced analytics. Built with Django backend and React frontend, featuring Netflix-like user experience with intelligent content discovery.
+A modern, scalable full-stack video streaming platform with AI-powered content recommendations, real-time transcoding, and advanced analytics. Built with Django backend and React frontend, featuring Netflix-like user experience with intelligent content discovery.
 
 ## 🎯 Key Features
 
