@@ -82,19 +82,23 @@ A modern, scalable full-stack video streaming platform featuring Netflix-like us
 ### Streaming Interface
 
 <div align="center">
-  <img src=".github/wagtail-screenshot-with-browser.png" alt="Video Streaming Platform" width="800"/>
-  <p><i>Netflix-style video streaming platform with personalized recommendations</i></p>
+  <p><b>🎥 Professional Video Streaming Platform</b></p>
+  <p><i>Netflix-style video streaming platform with personalized AI recommendations</i></p>
   
-  <img src=".github/install-animation.gif" alt="Platform Demo" width="600"/>
-  <p><i>Smooth user experience with adaptive streaming</i></p>
+  <h4>Key Capabilities:</h4>
+  <p>📺 <b>Adaptive Streaming:</b> Automatic bitrate adjustment (360p to 4K)<br/>
+  🤖 <b>AI Recommendations:</b> Deep learning content discovery engine<br/>
+  🎬 <b>Live Broadcasting:</b> Real-time video streaming with WebRTC<br/>
+  🌐 <b>CDN Integration:</b> Global content delivery for low latency<br/>
+  📱 <b>Multi-Device:</b> Responsive design for web, mobile, and smart TVs</p>
   
-  <img src="docs/_static/images/adminviews_menu.png" alt="Admin Architecture" width="700"/>
-  <p><i>Content management system architecture</i></p>
+  <h4>System Architecture:</h4>
+  <p>🏗️ <b>Microservices:</b> Django REST + React frontend<br/>
+  ⚡ <b>Processing:</b> FFmpeg for transcoding & Redis caching<br/>
+  🗄️ <b>Storage:</b> PostgreSQL + AWS S3 for media files<br/>
+  🔍 <b>Search:</b> Elasticsearch for content discovery</p>
   
-  <img src="docs/_static/images/screen40_table_block.png" alt="System Design" width="700"/>
-  <p><i>Modular streaming system design</i></p>
-  
-  <p><b>Note:</b> This is a production-ready streaming platform with CDN integration</p>
+  <p><b>Note:</b> This is a production-ready streaming platform with CDN integration and AI-powered features</p>
 </div>
 
 ### Key Features in Action
