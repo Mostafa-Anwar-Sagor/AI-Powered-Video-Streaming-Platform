@@ -1,5 +1,7 @@
 # 🎬 AI-Powered Video Streaming Platform
 
+<div align="center">
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
 ![Django](https://img.shields.io/badge/Django-5.0+-green.svg)
 ![React](https://img.shields.io/badge/React-18+-61DAFB.svg)
@@ -7,11 +9,47 @@
 ![License](https://img.shields.io/badge/License-BSD-blue.svg)
 ![Status](https://img.shields.io/badge/Status-Active-success.svg)
 
+**Netflix-Style Video Streaming Platform with AI Content Recommendations**
+
 *Developed by Mostafa Anwar*
 
-A modern, scalable full-stack video streaming platform with AI-powered content recommendations, real-time transcoding, and advanced analytics. Built with Django backend and React frontend, featuring Netflix-like user experience with intelligent content discovery.
+[Features](#features) • [Demo](#demo) • [Installation](#installation) • [Usage](#usage) • [Technologies](#technologies-used) • [Author](#author)
 
-## 🎯 Key Features
+</div>
+
+---
+
+## 📋 Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Demo](#demo)
+- [AI Models](#ai-models)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Technologies Used](#technologies-used)
+- [Future Enhancements](#future-enhancements)
+- [Author](#author)
+- [License](#license)
+
+---
+
+## 🎯 Overview
+
+A modern, scalable full-stack video streaming platform featuring Netflix-like user experience with intelligent AI-powered content discovery. The platform combines advanced video processing, adaptive bitrate streaming, and machine learning for personalized content recommendations.
+
+### 🔑 Key Highlights
+
+- **AI-Powered Recommendations** - Deep learning content discovery
+- **Adaptive Streaming** - HLS/DASH for smooth playback
+- **Real-Time Transcoding** - FFmpeg-based video processing
+- **Content Moderation** - Automated NSFW detection
+- **Multi-Resolution Support** - 360p to 4K streaming
+
+---
+
+## ✨ Features
 
 ### 🤖 AI-Powered Features
 - **Smart Recommendations** - Deep learning-based content recommendation engine
@@ -37,6 +75,42 @@ A modern, scalable full-stack video streaming platform with AI-powered content r
 - **Series Support** - Organize content in seasons and episodes
 - **Multi-language** - Support for multiple audio tracks and subtitles
 
+---
+
+## 🎬 Demo
+
+### Streaming Interface
+
+<div align="center">
+  <p><i>Netflix-style video streaming platform with personalized recommendations</i></p>
+  <p><b>Note:</b> This is a production-ready streaming platform with CDN integration</p>
+</div>
+
+### Key Features in Action
+
+- 📺 **Adaptive bitrate streaming** for seamless playback
+- 🤖 **AI-powered recommendations** based on viewing history
+- 🎨 **Modern, responsive UI** for all devices
+- 🔍 **Smart search** with fuzzy matching
+- 🌐 **Multi-language support** with automatic subtitles
+
+---
+
+## 🎓 AI Models
+
+### Recommendation Engine
+- **Collaborative Filtering**: User-based and item-based recommendations
+- **Content-Based**: Genre, cast, and metadata similarity
+- **Deep Learning**: Neural collaborative filtering with embeddings
+- **Hybrid Approach**: Combines multiple methods for best results
+
+### Computer Vision
+- **Scene Detection**: Identifies key scenes for thumbnails
+- **Content Classification**: Automatic genre tagging
+- **NSFW Detection**: Flags inappropriate content
+- **Face Recognition**: Identifies actors and celebrities
+
+---
 
 ## 🚀 Installation
 
@@ -48,6 +122,28 @@ A modern, scalable full-stack video streaming platform with AI-powered content r
 - FFmpeg (for video processing)
 
 ### Quick Setup
+
+```bash
+# Clone repository
+git clone https://github.com/Mostafa-Anwar-Sagor/AI-Powered-Video-Streaming-Platform.git
+cd AI-Powered-Video-Streaming-Platform
+
+# Backend setup
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+
+# Run migrations
+python manage.py migrate
+
+# Create superuser
+python manage.py createsuperuser
+
+# Start development server
+python manage.py runserver
+```
+
+---
 
 ```bash
 # Clone repository
