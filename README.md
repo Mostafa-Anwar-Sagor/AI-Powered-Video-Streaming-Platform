@@ -117,28 +117,29 @@
 
 ## 📸 Demo Screenshots
 
-> **📁 All screenshots are located in the [`screenshots/`](./screenshots/) directory**
+### 🏠 Homepage with Hero Banner & Categories
+![StreamFlix Homepage](./screenshots/landing%20page%201.png)
+*Auto-rotating hero banner with featured content and category-based video rows*
 
-### Homepage
-- Hero banner with auto-rotating featured content
-- Category-based video rows
-- AI-powered recommendations section
+### 📂 Category Organization
+![Category Rows](./screenshots/catagories.png)
+*Horizontally scrollable video cards organized by categories*
 
-### Browse Pages
-- TV Shows, Movies, New & Popular, My List views
-- Dynamic filtering and titles
-- Responsive card layouts
+### 🔥 Browse: New & Popular Content
+![Browse Popular](./screenshots/popular%20.png)
+*Dynamic content filtering with responsive card layouts*
 
-### Video Player
-- Full-screen playback interface
-- Related content recommendations
+### 🎛 Admin Panel - Content Manager Dashboard
+![Admin Dashboard](./screenshots/content%20management%20paage.png)
+*Professional Netflix-style admin panel with analytics and management tools*
 
-### Admin Panel
-- Dashboard with analytics
-- Video/Category management
-- Search and filtering tools
+### 📹 Video Management Interface
+![Video Management](./screenshots/video%20management.png)
+*Complete CRUD operations with search and filtering capabilities*
 
-**[View all screenshots →](./screenshots/README.md)**
+---
+
+> **📁 All screenshots are located in the [`screenshots/`](./screenshots/) directory** • [View screenshot guide →](./screenshots/README.md)
 
 ---
 
