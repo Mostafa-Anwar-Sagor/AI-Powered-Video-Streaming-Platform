@@ -1,0 +1,118 @@
+{% extends 'netflix/base.html' %}
+
+{% block title %}Browse - StreamFlix{% endblock %}
+
+{% block extra_css %}
+<style>
+    .browse-container {
+        padding-top: 140px;
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-bottom: 50px;
+        min-height: 100vh;
+    }
+
+    .browse-header {
+        margin-top: 0;
+        margin-bottom: 50px;
+    }
+
+    .browse-title {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .browse-subtitle {
+        color: #b3b3b3;
+        font-size: 1.1em;
+        line-height: 1.5;
+    }
+
+    .category-section {
+        margin-bottom: 60px;
+    }
+
+    .category-header {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 3px solid #E50914;
+        display: inline-block;
+    }
+
+    .category-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .browse-card {
+        border-radius: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        background: #1a1a1a;
+    }
+
+    .browse-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(229,9,20,0.3);
+    }
+
+    .browse-card img {
+        width: 100%;
+        height: 375px;
+        object-fit: cover;
+    }
+
+    .browse-card-content {
+        padding: 15px;
+    }
+
+    .browse-card-title {
+        font-size: 1.2em;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .browse-card-meta {
+        color: #b3b3b3;
+        font-size: 0.9em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="browse-container">
+    <div class="browse-header">
+        <h1 class="browse-title">{{ page_title|default:"Browse All Content" }}</h1>
+        <p class="browse-subtitle">{{ page_subtitle|default:"Discover thousands of shows and movies across all genres" }}</p>
+    </div>
+
+    {% if categories %}
+    {% for category in categories %}
+    <div class="category-section">
+        <h2 class="category-header">{{ category.name }}</h2>
+        <div class="category-grid">
+            {% for video in category.videos %}
+            <div class="browse-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="browse-card-content">
+                    <div class="browse-card-title">{{ video.title }}</div>
+                    <div class="browse-card-meta">{{ video.year }} • {{ video.video_type|title }} • {{ video.age_rating }}</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <div style="text-align: center; padding: 100px 0; color: #8c8c8c;">
+        <h2>No content available</h2>
+        <p>Check back later for new additions</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

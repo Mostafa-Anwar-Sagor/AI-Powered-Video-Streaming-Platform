@@ -1,0 +1,233 @@
+{% extends 'netflix/base.html' %}
+
+{% block title %}Home - StreamFlix{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<div class="hero" id="heroBanner">
+    <div class="hero-content" id="heroContent">
+        {% if featured_video %}
+            <h1 class="hero-title" id="heroTitle">{{ featured_video.title }}</h1>
+            <p class="hero-description" id="heroDescription">{{ featured_video.description|truncatewords:30 }}</p>
+            <div class="hero-buttons">
+                <button class="btn btn-play" id="heroPlayBtn" onclick="window.location.href='{% url 'netflix:player' featured_video.id %}'">
+                    ▶ Play
+                </button>
+                <button class="btn btn-info">
+                    ℹ️ More Info
+                </button>
+            </div>
+        {% else %}
+            <h1 class="hero-title">Welcome to StreamFlix</h1>
+            <p class="hero-description">
+                Discover unlimited movies, TV shows, and documentaries. Add content from the admin panel to get started.
+            </p>
+        {% endif %}
+    </div>
+    {% if featured_videos|length > 1 %}
+    <div class="hero-indicators" id="heroIndicators">
+        {% for video in featured_videos %}
+        <span class="indicator {% if forloop.first %}active{% endif %}" data-index="{{ forloop.counter0 }}"></span>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<!-- Content Rows -->
+<div class="content-rows">
+    <!-- Trending Now -->
+    {% if trending %}
+    <div class="video-row">
+        <h2 class="row-title">Trending Now</h2>
+        <div class="video-slider">
+            {% for video in trending %}
+            <div class="video-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-meta">
+                        <span class="match">{{ video.rating }} Match</span> • {{ video.year }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Popular on StreamFlix -->
+    {% if popular %}
+    <div class="video-row">
+        <h2 class="row-title">Popular on StreamFlix</h2>
+        <div class="video-slider">
+            {% for video in popular %}
+            <div class="video-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-meta">
+                        <span class="match">{{ video.rating }} Match</span> • {{ video.year }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- New Releases -->
+    {% if new_releases %}
+    <div class="video-row">
+        <h2 class="row-title">New Releases</h2>
+        <div class="video-slider">
+            {% for video in new_releases %}
+            <div class="video-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-meta">
+                        <span class="match">{{ video.rating }} Match</span> • {{ video.year }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Documentaries -->
+    {% if documentaries %}
+    <div class="video-row">
+        <h2 class="row-title">Award-Winning Documentaries</h2>
+        <div class="video-slider">
+            {% for video in documentaries %}
+            <div class="video-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-meta">
+                        <span class="match">{{ video.rating }} Match</span> • {{ video.year }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- AI Recommendations Section -->
+    {% if ai_recommendations %}
+    <div class="video-row">
+        <h2 class="row-title">🤖 AI Recommendations For You</h2>
+        <div class="video-slider">
+            {% for video in ai_recommendations %}
+            <div class="video-card" onclick="window.location.href='{% url 'netflix:player' video.id %}'">
+                <img src="{{ video.thumbnail }}" alt="{{ video.title }}">
+                <div class="video-info">
+                    <div class="video-title">{{ video.title }}</div>
+                    <div class="video-meta">
+                        <span class="match">{{ video.rating }} Match</span> • {{ video.year }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% if featured_videos|length > 1 %}
+<script>
+    // Hero Banner Auto-Rotation with Smooth Transitions
+    const featuredVideos = {{ featured_videos_json|safe }};
+    let currentIndex = 0;
+    const rotationInterval = 6000; // 6 seconds
+    
+    function truncateDescription(text, wordLimit) {
+        const words = text.split(' ');
+        if (words.length > wordLimit) {
+            return words.slice(0, wordLimit).join(' ') + '...';
+        }
+        return text;
+    }
+    
+    function rotateHero() {
+        const heroContent = document.getElementById('heroContent');
+        const heroTitle = document.getElementById('heroTitle');
+        const heroDescription = document.getElementById('heroDescription');
+        const heroPlayBtn = document.getElementById('heroPlayBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        
+        // Fade out
+        heroContent.classList.add('fade-out');
+        
+        setTimeout(() => {
+            // Move to next video
+            currentIndex = (currentIndex + 1) % featuredVideos.length;
+            const video = featuredVideos[currentIndex];
+            
+            // Update content
+            heroTitle.textContent = video.title;
+            heroDescription.textContent = truncateDescription(video.description, 30);
+            heroPlayBtn.onclick = () => window.location.href = `/watch/${video.id}/`;
+            
+            // Update background image with hero image
+            const heroBanner = document.getElementById('heroBanner');
+            heroBanner.style.background = `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(20,20,20,1)), url('${video.hero_image}')`;
+            heroBanner.style.backgroundSize = 'cover';
+            heroBanner.style.backgroundPosition = 'center';
+            
+            // Update indicators
+            indicators.forEach((indicator, idx) => {
+                if (idx === currentIndex) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+            
+            // Fade in
+            heroContent.classList.remove('fade-out');
+        }, 1000); // Wait 1 second for fade out
+    }
+    
+    // Allow manual indicator clicks
+    document.querySelectorAll('.indicator').forEach((indicator, idx) => {
+        indicator.addEventListener('click', () => {
+            clearInterval(rotationTimer); // Stop auto-rotation
+            const heroContent = document.getElementById('heroContent');
+            heroContent.classList.add('fade-out');
+            
+            setTimeout(() => {
+                currentIndex = idx;
+                const video = featuredVideos[currentIndex];
+                
+                // Update content
+                document.getElementById('heroTitle').textContent = video.title;
+                document.getElementById('heroDescription').textContent = truncateDescription(video.description, 30);
+                document.getElementById('heroPlayBtn').onclick = () => window.location.href = `/watch/${video.id}/`;
+                
+                // Update background
+                const heroBanner = document.getElementById('heroBanner');
+                heroBanner.style.background = `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(20,20,20,1)), url('${video.hero_image}')`;
+                heroBanner.style.backgroundSize = 'cover';
+                heroBanner.style.backgroundPosition = 'center';
+                
+                // Update indicators
+                document.querySelectorAll('.indicator').forEach((ind, i) => {
+                    ind.classList.toggle('active', i === currentIndex);
+                });
+                
+                heroContent.classList.remove('fade-out');
+            }, 1000);
+            
+            // Restart auto-rotation
+            rotationTimer = setInterval(rotateHero, rotationInterval);
+        });
+    });
+    
+    // Start rotation
+    let rotationTimer = setInterval(rotateHero, rotationInterval);
+</script>
+{% endif %}
+{% endblock %}

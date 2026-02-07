@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StreamFlix - Watch Movies & TV Shows{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #141414;
+            color: #fff;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(20, 20, 20, 0.95);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar.scrolled {
+            background-color: #141414;
+        }
+
+        .navbar-logo {
+            color: #E50914;
+            font-size: 2em;
+            font-weight: bold;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-login, .btn-signup {
+            padding: 8px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .btn-login {
+            color: #fff;
+            background: transparent;
+            border: 1px solid #fff;
+        }
+
+        .btn-login:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-signup {
+            background: #E50914;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-signup:hover {
+            background: #f40612;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: #e5e5e5;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .navbar-menu a:hover {
+            color: #b3b3b3;
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .search-box {
+            padding: 8px 15px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #fff;
+            color: #fff;
+            border-radius: 4px;
+        }
+
+        .user-profile {
+            width: 32px;
+            height: 32px;
+            background: #E50914;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .user-profile::after {
+            content: '▼';
+            font-size: 10px;
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+        }
+
+        .user-profile.active::after {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .user-profile:hover {
+            background: #f40612;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: rgba(0, 0, 0, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 4px;
+            min-width: 220px;
+            display: none;
+            z-index: 2000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+            padding: 8px 0;
+        }
+
+        .user-dropdown.show {
+            display: block;
+        }
+
+        .user-dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        .user-dropdown a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            text-decoration: underline;
+        }
+
+        .user-dropdown .user-email {
+            padding: 10px 20px;
+            color: #999;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .user-dropdown .admin-link {
+            background: rgba(229, 9, 20, 0.15);
+            border-left: 3px solid #E50914;
+            font-weight: 600;
+            color: #E50914;
+        }
+
+        .user-dropdown .admin-link:hover {
+            background: rgba(229, 9, 20, 0.25);
+        }
+
+        /* Hero Banner */
+        .hero {
+            position: relative;
+            height: 80vh;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(20,20,20,1)),
+                        url('https://picsum.photos/1920/1080?random=hero');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            margin-top: 0;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin-top: 100px;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-content.fade-out {
+            opacity: 0;
+        }
+
+        .hero-title {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+        }
+
+        .hero-description {
+            font-size: 1.2em;
+            line-height: 1.5;
+            margin-bottom: 30px;
+            color: #e5e5e5;
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .hero-indicators {
+            position: absolute;
+            bottom: 30px;
+            right: 50px;
+            display: flex;
+            gap: 8px;
+            z-index: 20;
+        }
+
+        .hero-indicators .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .hero-indicators .indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.2);
+        }
+
+        .hero-indicators .indicator.active {
+            background: #E50914;
+            width: 32px;
+            border-radius: 6px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+
+        .btn-play {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-play:hover {
+            background: rgba(255,255,255,0.75);
+        }
+
+        .btn-info {
+            background: rgba(109,109,110,0.7);
+            color: #fff;
+        }
+
+        .btn-info:hover {
+            background: rgba(109,109,110,0.4);
+        }
+
+        /* Video Rows */
+        .content-rows {
+            padding: 0 50px;
+            margin-top: -150px;
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(to bottom, transparent, #141414 100px);
+            padding-top: 50px;
+        }
+
+        .video-row {
+            margin-bottom: 50px;
+        }
+
+        .row-title {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .video-slider {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            scrollbar-width: thin;
+            scrollbar-color: #4a4a4a #141414;
+        }
+
+        .video-slider::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .video-slider::-webkit-scrollbar-track {
+            background: #141414;
+        }
+
+        .video-slider::-webkit-scrollbar-thumb {
+            background: #4a4a4a;
+            border-radius: 4px;
+        }
+
+        .video-card {
+            flex: 0 0 auto;
+            width: 250px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 375px;
+            object-fit: cover;
+        }
+
+        .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .video-card:hover .video-info {
+            opacity: 1;
+        }
+
+        .video-title {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .video-meta {
+            font-size: 0.85em;
+            color: #b3b3b3;
+        }
+
+        .match {
+            color: #46d369;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 50px;
+            text-align: center;
+            color: #808080;
+            border-top: 1px solid #222;
+            margin-top: 100px;
+        }
+
+        {% block extra_css %}{% endblock %}
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar" id="navbar">
+        <a href="{% url 'netflix:home' %}" class="navbar-logo">STREAMFLIX</a>
+        <ul class="navbar-menu">
+            <li><a href="{% url 'netflix:home' %}">Home</a></li>
+            <li><a href="{% url 'netflix:browse' %}?type=series">TV Shows</a></li>
+            <li><a href="{% url 'netflix:browse' %}?type=movie">Movies</a></li>
+            <li><a href="{% url 'netflix:browse' %}?type=new">New & Popular</a></li>
+            <li><a href="{% url 'netflix:browse' %}?type=mylist">My List</a></li>
+        </ul>
+        <div class="navbar-right">
+            <input type="text" class="search-box" placeholder="Search...">
+            {% if user.is_authenticated %}
+                <div class="user-profile" id="userProfile">
+                    {{ user.username|first|upper }}
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="user-email">{{ user.username }}</div>
+                        <a href="#">Account</a>
+                        <a href="#">Transfer Profile</a>
+                        <a href="{% url 'netflix:browse' %}?type=mylist">My List</a>
+                        {% if user.is_staff or user.is_superuser %}
+                        <a href="{% url 'netflix:admin_dashboard' %}" class="admin-link">⚙️ Content Manager</a>
+                        {% endif %}
+                        <a href="#">Help Center</a>
+                        <a href="{% url 'netflix:logout' %}" style="border-top: 1px solid #333; margin-top: 8px; padding-top: 12px;">Sign out of StreamFlix</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="auth-buttons">
+                    <a href="{% url 'netflix:login' %}" class="btn-login">Sign In</a>
+                    <a href="{% url 'netflix:register' %}" class="btn-signup">Sign Up</a>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 StreamFlix - Built by Mostafa Anwar</p>
+        <p>Full-Stack AI-Powered Video Streaming Platform</p>
+    </footer>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // User profile dropdown toggle
+        const userProfile = document.getElementById('userProfile');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userProfile && userDropdown) {
+            // Toggle dropdown on click
+            userProfile.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.classList.toggle('show');
+                userProfile.classList.toggle('active');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!userProfile.contains(e.target)) {
+                    userDropdown.classList.remove('show');
+                    userProfile.classList.remove('active');
+                }
+            });
+            
+            // Prevent dropdown from closing when clicking inside it
+            userDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

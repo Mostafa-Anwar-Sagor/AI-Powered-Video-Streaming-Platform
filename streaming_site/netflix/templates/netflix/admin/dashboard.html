@@ -1,0 +1,121 @@
+{% extends 'netflix/admin/base.html' %}
+
+{% block title %}Dashboard - StreamFlix Content Manager{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">Content Dashboard</h1>
+    <p class="admin-subtitle">Manage your streaming content library</p>
+</div>
+
+<!-- Statistics -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">{{ total_videos }}</div>
+        <div class="stat-label">Total Videos</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_categories }}</div>
+        <div class="stat-label">Categories</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ total_views|default:0 }}</div>
+        <div class="stat-label">Total Views</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">{{ new_videos_count }}</div>
+        <div class="stat-label">New This Week</div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="admin-card">
+    <h2 class="admin-card-title">Quick Actions</h2>
+    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+        <a href="{% url 'netflix:admin_video_add' %}" class="btn btn-primary">
+            ➕ Add New Video
+        </a>
+        <a href="{% url 'netflix:admin_category_add' %}" class="btn btn-secondary">
+            ➕ Add Category
+        </a>
+        <a href="{% url 'netflix:admin_video_list' %}" class="btn btn-secondary">
+            📋 View All Videos
+        </a>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 24px;">
+    <!-- Recent Videos -->
+    <div class="admin-card">
+        <h2 class="admin-card-title">Recent Videos</h2>
+        {% if recent_videos %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Thumbnail</th>
+                    <th>Title</th>
+                    <th>Type</th>
+                    <th>Views</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in recent_videos %}
+                <tr>
+                    <td><img src="{{ video.thumbnail }}" class="table-thumbnail" alt="{{ video.title }}"></td>
+                    <td>{{ video.title }}</td>
+                    <td>{{ video.get_video_type_display }}</td>
+                    <td>{{ video.view_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: #8c8c8c;">No videos yet. Add your first video!</p>
+        {% endif %}
+    </div>
+
+    <!-- Top Videos -->
+    <div class="admin-card">
+        <h2 class="admin-card-title">Top Viewed Videos</h2>
+        {% if top_videos %}
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Rating</th>
+                    <th>Views</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in top_videos %}
+                <tr>
+                    <td>{{ video.title }}</td>
+                    <td>{{ video.rating_percentage }}%</td>
+                    <td style="color: #46d369; font-weight: bold;">{{ video.view_count }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p style="color: #8c8c8c;">No viewing data yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Category Distribution -->
+<div class="admin-card" style="margin-top: 24px;">
+    <h2 class="admin-card-title">Category Distribution</h2>
+    {% if categories_with_count %}
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        {% for category in categories_with_count %}
+        <div style="background: #333; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="font-size: 28px; font-weight: bold; color: #E50914;">{{ category.video_count }}</div>
+            <div style="color: #e5e5e5; margin-top: 5px;">{{ category.name }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: #8c8c8c;">No categories yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

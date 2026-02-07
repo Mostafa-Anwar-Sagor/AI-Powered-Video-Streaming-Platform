@@ -1,0 +1,99 @@
+{% extends 'netflix/admin/base.html' %}
+
+{% block title %}Categories - StreamFlix Content Manager{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">Categories</h1>
+    <a href="{% url 'netflix:admin_category_add' %}" class="btn btn-primary">➕ Add New Category</a>
+</div>
+
+<div class="admin-card">
+    <h2 class="admin-card-title">All Categories ({{ categories|length }})</h2>
+    {% if categories %}
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Slug</th>
+                <th>Videos</th>
+                <th>Order</th>
+                <th>Status</th>
+                <th style="width: 150px;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td><strong>{{ category.name }}</strong></td>
+                <td><code style="background: #2a2a2a; padding: 4px 8px; border-radius: 4px; color: #46d369;">{{ category.slug }}</code></td>
+                <td>
+                    <span style="background: #E50914; color: white; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 13px;">
+                        {{ category.video_count }} video{{ category.video_count|pluralize }}
+                    </span>
+                </td>
+                <td>{{ category.order }}</td>
+                <td>
+                    {% if category.is_active %}
+                    <span style="color: #46d369;">● Active</span>
+                    {% else %}
+                    <span style="color: #8c8c8c;">● Inactive</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="table-actions">
+                        <a href="{% url 'netflix:admin_category_edit' category.id %}" class="btn-action" title="Edit">
+                            ✏️
+                        </a>
+                        <a href="{% url 'netflix:admin_category_delete' category.id %}" 
+                           class="btn-action" 
+                           onclick="return confirm('Are you sure you want to delete {{ category.name }}? This will not delete the videos.');"
+                           title="Delete">
+                            🗑️
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color: #8c8c8c; text-align: center; padding: 40px 0;">
+        No categories yet. Click "Add New Category" to create your first category!
+    </p>
+    {% endif %}
+</div>
+
+{% if categories %}
+<div class="admin-card" style="margin-top: 24px;">
+    <h2 class="admin-card-title">💡 Category Tips</h2>
+    <ul style="color: #b3b3b3; line-height: 1.8;">
+        <li>Categories help organize your video library for better user experience</li>
+        <li>Use the <strong>Order</strong> field to control the display order on the homepage</li>
+        <li>Videos can belong to multiple categories</li>
+        <li>Inactive categories won't appear on the public site but videos remain accessible</li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .table-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+    }
+    .btn-action {
+        font-size: 18px;
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: background 0.2s;
+        text-decoration: none;
+    }
+    .btn-action:hover {
+        background: rgba(229, 9, 20, 0.1);
+    }
+</style>
+{% endblock %}

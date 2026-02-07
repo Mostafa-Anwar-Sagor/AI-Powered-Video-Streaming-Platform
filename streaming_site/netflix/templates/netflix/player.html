@@ -1,0 +1,155 @@
+{% extends 'netflix/base.html' %}
+
+{% block title %}Watch {{ video.title }} - Netflix Clone{% endblock %}
+
+{% block extra_css %}
+<style>
+    body {
+        background: #000;
+    }
+
+    .video-player-container {
+        width: 100%;
+        max-width: 1400px;
+        margin: 80px auto 0;
+        padding: 20px;
+    }
+
+    .player-wrapper {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 Aspect Ratio */
+        background: #000;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+    }
+
+    .player-wrapper video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .back-button {
+        position: absolute;
+        top: 100px;
+        left: 50px;
+        background: rgba(0,0,0,0.7);
+        border: none;
+        color: #fff;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        cursor: pointer;
+        border-radius: 5px;
+        z-index: 1000;
+        transition: background 0.3s;
+    }
+
+    .back-button:hover {
+        background: rgba(0,0,0,0.9);
+    }
+
+    .video-details {
+        padding: 30px 0;
+    }
+
+    .video-title-main {
+        font-size: 2.5em;
+        margin-bottom: 15px;
+    }
+
+    .video-metadata {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+        color: #46d369;
+        font-size: 1.1em;
+    }
+
+    .video-description-text {
+        font-size: 1.1em;
+        line-height: 1.6;
+        color: #e5e5e5;
+        margin-bottom: 30px;
+    }
+
+    .recommended-section {
+        margin-top: 50px;
+    }
+
+    .recommended-title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .recommended-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .recommended-card {
+        cursor: pointer;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.3s;
+    }
+
+    .recommended-card:hover {
+        transform: scale(1.05);
+    }
+
+    .recommended-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+    }
+
+    .recommended-card-title {
+        padding: 10px;
+        background: #1a1a1a;
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<button class="back-button" onclick="window.location.href='{% url 'netflix:home' %}'">
+    ← Back to Browse
+</button>
+
+<div class="video-player-container">
+    <div class="player-wrapper">
+        <video controls autoplay>
+            <source src="{{ video.video_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+
+    <div class="video-details">
+        <h1 class="video-title-main">{{ video.title }}</h1>
+        <div class="video-metadata">
+            <span>{{ video.rating }} Match</span>
+            <span>{{ video.year }}</span>
+            <span>{{ video.duration }}</span>
+            <span>HD</span>
+        </div>
+        <p class="video-description-text">{{ video.description }}</p>
+    </div>
+
+    <div class="recommended-section">
+        <h2 class="recommended-title">More Like This</h2>
+        <div class="recommended-grid">
+            {% for rec in recommended %}
+            <div class="recommended-card" onclick="window.location.href='{% url 'netflix:player' rec.id %}'">
+                <img src="{{ rec.thumbnail }}" alt="{{ rec.title }}">
+                <div class="recommended-card-title">{{ rec.title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

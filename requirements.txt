@@ -1,0 +1,23 @@
+# StreamFlix - Netflix Clone Requirements
+# Python 3.11+
+
+# Core Framework
+Django==5.2.11
+
+# Image Processing (for thumbnails)
+Pillow==10.2.0
+
+# Optional: Production Server
+# gunicorn==21.2.0
+# whitenoise==6.6.0
+
+# Optional: PostgreSQL Support (for production)
+# psycopg2-binary==2.9.9
+
+# Optional: Redis Cache (for production)
+# redis==5.0.1
+# django-redis==5.4.0
+
+# Development Tools (optional)
+# django-debug-toolbar==4.2.0
+# ipython==8.20.0

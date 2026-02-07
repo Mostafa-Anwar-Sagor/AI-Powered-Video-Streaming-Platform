@@ -1,0 +1,186 @@
+{% extends 'netflix/admin/base.html' %}
+
+{% block title %}{% if video %}Edit Video{% else %}Add New Video{% endif %} - StreamFlix Content Manager{% endblock %}
+
+{% block content %}
+<div class="admin-header">
+    <h1 class="admin-title">{% if video %}Edit Video{% else %}Add New Video{% endif %}</h1>
+    <a href="{% url 'netflix:admin_video_list' %}" class="btn btn-secondary">← Back to Videos</a>
+</div>
+
+<div class="admin-card">
+    <form method="POST" action="">
+        {% csrf_token %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+            <!-- Left Column -->
+            <div>
+                <h3 style="color: #e5e5e5; margin-bottom: 20px; border-bottom: 2px solid #E50914; padding-bottom: 10px;">Basic Information</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Title *</label>
+                    <input type="text" name="title" class="form-control" value="{{ video.title }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Slug *</label>
+                    <input type="text" name="slug" class="form-control" value="{{ video.slug }}" required>
+                    <small style="color: #8c8c8c;">URL-friendly version of the title (e.g., my-video-title)</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea name="description" class="form-control" rows="4" required>{{ video.description }}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Video Type *</label>
+                    <select name="video_type" class="form-control" required>
+                        <option value="">Select Type</option>
+                        <option value="movie" {% if video.video_type == "movie" %}selected{% endif %}>Movie</option>
+                        <option value="series" {% if video.video_type == "series" %}selected{% endif %}>Series</option>
+                        <option value="documentary" {% if video.video_type == "documentary" %}selected{% endif %}>Documentary</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Year *</label>
+                    <input type="number" name="year" class="form-control" value="{{ video.year|default:2024 }}" min="1900" max="2100" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Duration (minutes) *</label>
+                    <input type="number" name="duration_minutes" class="form-control" value="{{ video.duration_minutes|default:120 }}" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Rating Percentage *</label>
+                    <input type="number" name="rating_percentage" class="form-control" value="{{ video.rating_percentage|default:85 }}" min="0" max="100" required>
+                    <small style="color: #8c8c8c;">0-100 (e.g., 85 for 85%)</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Age Rating *</label>
+                    <select name="age_rating" class="form-control" required>
+                        <option value="">Select Age Rating</option>
+                        <option value="G" {% if video.age_rating == "G" %}selected{% endif %}>G - General Audiences</option>
+                        <option value="PG" {% if video.age_rating == "PG" %}selected{% endif %}>PG - Parental Guidance</option>
+                        <option value="PG-13" {% if video.age_rating == "PG-13" %}selected{% endif %}>PG-13</option>
+                        <option value="R" {% if video.age_rating == "R" %}selected{% endif %}>R - Restricted</option>
+                        <option value="NC-17" {% if video.age_rating == "NC-17" %}selected{% endif %}>NC-17</option>
+                        <option value="TV-Y" {% if video.age_rating == "TV-Y" %}selected{% endif %}>TV-Y</option>
+                        <option value="TV-PG" {% if video.age_rating == "TV-PG" %}selected{% endif %}>TV-PG</option>
+                        <option value="TV-14" {% if video.age_rating == "TV-14" %}selected{% endif %}>TV-14</option>
+                        <option value="TV-MA" {% if video.age_rating == "TV-MA" %}selected{% endif %}>TV-MA</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div>
+                <h3 style="color: #e5e5e5; margin-bottom: 20px; border-bottom: 2px solid #E50914; padding-bottom: 10px;">Media & Details</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Thumbnail URL *</label>
+                    <input type="url" name="thumbnail" class="form-control" value="{{ video.thumbnail }}" required>
+                    <small style="color: #8c8c8c;">Full URL to thumbnail image</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Hero Image URL *</label>
+                    <input type="url" name="hero_image" class="form-control" value="{{ video.hero_image }}" required>
+                    <small style="color: #8c8c8c;">Large banner image for hero section</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Video URL *</label>
+                    <input type="url" name="video_url" class="form-control" value="{{ video.video_url }}" required>
+                    <small style="color: #8c8c8c;">Full URL to video file or streaming link</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Trailer URL</label>
+                    <input type="url" name="trailer_url" class="form-control" value="{{ video.trailer_url }}">
+                    <small style="color: #8c8c8c;">Optional trailer URL</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Director</label>
+                    <input type="text" name="director" class="form-control" value="{{ video.director }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Cast</label>
+                    <input type="text" name="cast" class="form-control" value="{{ video.cast }}">
+                    <small style="color: #8c8c8c;">Comma-separated actor names</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <input type="text" name="language" class="form-control" value="{{ video.language|default:'English' }}">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tags</label>
+                    <input type="text" name="tags" class="form-control" value="{{ video.tags }}">
+                    <small style="color: #8c8c8c;">Comma-separated tags</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Categories Section -->
+        <div style="margin-top: 30px;">
+            <h3 style="color: #e5e5e5; margin-bottom: 20px; border-bottom: 2px solid #E50914; padding-bottom: 10px;">Categories *</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px;">
+                {% for category in all_categories %}
+                <div style="background: #333; padding: 12px 15px; border-radius: 6px;">
+                    <label style="display: flex; align-items: center; cursor: pointer; margin: 0;">
+                        <input 
+                            type="checkbox" 
+                            name="categories" 
+                            value="{{ category.id }}"
+                            {% if video and category in video.categories.all %}checked{% endif %}
+                            style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;"
+                        >
+                        <span style="color: #e5e5e5;">{{ category.name }}</span>
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
+            <small style="color: #8c8c8c; display: block; margin-top: 10px;">Select at least one category</small>
+        </div>
+
+        <!-- Checkboxes -->
+        <div style="margin-top: 30px; display: flex; gap: 30px;">
+            <label style="display: flex; align-items: center; cursor: pointer; color: #e5e5e5;">
+                <input 
+                    type="checkbox" 
+                    name="is_featured" 
+                    value="true"
+                    {% if video.is_featured %}checked{% endif %}
+                    style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;"
+                >
+                <span>Featured (Show in hero banner)</span>
+            </label>
+            <label style="display: flex; align-items: center; cursor: pointer; color: #e5e5e5;">
+                <input 
+                    type="checkbox" 
+                    name="is_active" 
+                    value="true"
+                    {% if video.is_active or not video %}checked{% endif %}
+                    style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;"
+                >
+                <span>Active (Visible on site)</span>
+            </label>
+        </div>
+
+        <!-- Submit Buttons -->
+        <div style="margin-top: 40px; display: flex; gap: 15px;">
+            <button type="submit" class="btn btn-primary">
+                {% if video %}💾 Update Video{% else %}➕ Create Video{% endif %}
+            </button>
+            <a href="{% url 'netflix:admin_video_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
